@@ -7,6 +7,8 @@ include_directories(${CMAKE_SOURCE_DIR}/libs/raylib/include) # Adjust if headers
 # Add executable
 add_executable(${PROJECT_NAME} src/main.c)
 
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 # Link against the precompiled raylib static library
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/libs/raylib/libraylib.a)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/libs/raylib/)
