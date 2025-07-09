@@ -1,12 +1,42 @@
 #include "raylib.h"
 //#include <math.h>
 //#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 int SCREEN_WIDTH  = 960;
 int SCREEN_HEIGHT = 540;
 
 const int RENDER_WIDTH = 960;
 const int RENDER_HEIGHT = 540;
+
+typedef struct {
+	Rectangle shape;
+	Color color;
+	Color usedColor;
+	int outline; // If not zero acts has bool and outline width
+	int id;
+} Button;
+
+
+void AddButton(Button bt, Button* btArray) {
+	return;
+};
+
+void BulkDrawButton(Button* btArray) {
+	//int brLength = sizeof(btArray)*64;
+
+	for (int i = 64; i > 0; i--) {
+		if (btArray[i].id != -1) {
+			DrawRectangleRec(btArray[i].shape, btArray[i].color);
+			if (btArray[i].outline != 0) {
+				DrawRectangleLinesEx(btArray[i].shape, btArray[i].outline, btArray[i].usedColor);
+			}
+			TraceLog(LOG_DEBUG, TextFormat("Drawed Button %d", btArray[i].id));
+		};
+	};
+};
+
 
 bool ColorEquals(Color a, Color b) {
 	return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
@@ -62,6 +92,10 @@ int main()
 
 	//Texture2D texture = LoadTexture(ASSETS_PATH"test.png");
 
+	Button btArray[64]  = {[0 ... 63] = (Button){(Rectangle){0, 0, 0, 0}, RED, RED, 0, -1}};
+	btArray[1] = (Button){(Rectangle){500, 200, 100, 100}, RED, DARKBROWN, 5, 1};
+
+
 	Color rectanglecolor = {255, 0, 0, 255};
 
 	Rectangle rec = {0, 0, 200, 200};
@@ -108,7 +142,7 @@ int main()
 		DrawRectangleLinesEx(rec, 5, (Color){125, 0, 0, 255});
 		DrawCenterText("CLICK", 32, BLACK);
 		DrawRecCenterText((Rectangle){25, 200, 100, 100}, "+1", 32, BLACK);
-
+		BulkDrawButton(btArray);
 
 		EndTextureMode();
 
